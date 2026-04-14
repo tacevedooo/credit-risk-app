@@ -1,0 +1,22 @@
+[
+    "int_rate",
+    "dti",
+    "annual_inc",
+    "loan_amnt",
+    "revol_util",
+    "delinq_2yrs",
+    "pub_rec",
+    "open_acc",
+    "total_acc",
+    "grade",
+    "term_ 60 months",
+    "home_ownership_RENT",
+    "home_ownership_MORTGAGE",
+    "home_ownership_OWN",
+    "purpose_small_business",
+    "purpose_debt_consolidation",
+    "purpose_credit_card",
+    "purpose_home_improvement",
+    "purpose_medical",
+    "purpose_other"
+]

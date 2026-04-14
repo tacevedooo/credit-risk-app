@@ -1,0 +1,132 @@
+{
+    "int_rate": {
+        "tipo": "numerico",
+        "min": 5.32,
+        "max": 28.99,
+        "media": 13.87600227162701
+    },
+    "dti": {
+        "tipo": "numerico",
+        "min": 0.0,
+        "max": 57.14,
+        "media": 16.675701560347076
+    },
+    "annual_inc": {
+        "tipo": "numerico",
+        "min": 1896.0,
+        "max": 8706582.0,
+        "media": 72391.72810907534
+    },
+    "loan_amnt": {
+        "tipo": "numerico",
+        "min": 500.0,
+        "max": 35000.0,
+        "media": 13610.4822552415
+    },
+    "revol_util": {
+        "tipo": "numerico",
+        "min": 0.0,
+        "max": 892.3,
+        "media": 54.49328201690686
+    },
+    "delinq_2yrs": {
+        "tipo": "numerico",
+        "min": 0.0,
+        "max": 29.0,
+        "media": 0.2566938517111682
+    },
+    "pub_rec": {
+        "tipo": "numerico",
+        "min": 0.0,
+        "max": 15.0,
+        "media": 0.14644546233195546
+    },
+    "open_acc": {
+        "tipo": "numerico",
+        "min": 0.0,
+        "max": 76.0,
+        "media": 10.969630953710945
+    },
+    "total_acc": {
+        "tipo": "numerico",
+        "min": 1.0,
+        "max": 150.0,
+        "media": 25.01952109633933
+    },
+    "grade": {
+        "tipo": "numerico",
+        "min": 1.0,
+        "max": 7.0,
+        "media": 2.8485234424459094
+    },
+    "term_ 60 months": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "home_ownership_RENT": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "home_ownership_MORTGAGE": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "home_ownership_OWN": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "purpose_small_business": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "purpose_debt_consolidation": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "purpose_credit_card": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "purpose_home_improvement": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "purpose_medical": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "purpose_other": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    }
+}
