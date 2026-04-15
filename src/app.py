@@ -6,6 +6,7 @@ import json
 import matplotlib.pyplot as plt
 import seaborn as sns
 from tensorflow.keras.models import load_model
+import keras
 
 # --- CONFIGURACIÓN DE LA PÁGINA ---
 st.set_page_config(page_title="CreditScore", page_icon="🪙", layout="wide")
@@ -63,7 +64,7 @@ def load_assets():
     dist_path = os.path.join(ASSETS_DIR, 'datos_distribucion.json')
     
     # Carga de archivos
-    model = load_model(model_path)
+    model = keras.models.load_model(model_path)
     scaler = joblib.load(scaler_path)
     
     with open(vars_path, 'r') as f:
