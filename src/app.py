@@ -45,24 +45,50 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- CARGA DE ASSETS (Modelo y Configuración) ---
+import os
+
+# --- CONFIGURACIÓN DE RUTAS DINÁMICAS ---
+# Obtenemos la ruta de la carpeta 'src' donde vive app.py
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Subimos un nivel y entramos a 'assets'
+ASSETS_DIR = os.path.join(BASE_DIR, '..', 'assets')
+
 @st.cache_resource
-def load_assets():               
-    model = load_model('../assets/modelo_riesgo_crediticio_optimizado.keras')
-    scaler = joblib.load('../assets/scaler.pkl')
-    with open('../assets/variables_modelo.json', 'r') as f:
+def load_assets():
+    # Construimos las rutas completas para cada archivo
+    model_path = os.path.join(ASSETS_DIR, 'modelo_riesgo_crediticio_optimizado.keras')
+    scaler_path = os.path.join(ASSETS_DIR, 'scaler.pkl')
+    vars_path = os.path.join(ASSETS_DIR, 'variables_modelo.json')
+    rangos_path = os.path.join(ASSETS_DIR, 'rangos_validacion.json')
+    dist_path = os.path.join(ASSETS_DIR, 'datos_distribucion.json')
+    
+    # Carga de archivos
+    model = load_model(model_path)
+    scaler = joblib.load(scaler_path)
+    
+    with open(vars_path, 'r') as f:
         vars_modelo = json.load(f)
-    with open('../assets/rangos_validacion.json', 'r') as f:
+    with open(rangos_path, 'r') as f:
         rangos = json.load(f)
-    with open('../assets/datos_distribucion.json', 'r') as f:
+    with open(dist_path, 'r') as f:
         dist_data = json.load(f)
+        
     return model, scaler, vars_modelo, rangos, dist_data
 
-# Intentar cargar, si no existen los archivos mostrará un error amigable
+# --- INTENTAR CARGAR ---
 try:
     model, scaler, vars_modelo, rangos, dist_data = load_assets()
 except Exception as e:
-    st.error("Error al cargar archivos de modelo. Asegúrate de que la carpeta 'assets' esté completa.")
+    st.error("⚠️ Error al cargar archivos de modelo.")
+    st.write(f"**Detalle del error:** {e}")
+    
+    # Debug extra para que veas qué está pasando en la nube
+    st.info(f"Buscando en: {os.path.abspath(ASSETS_DIR)}")
+    if os.path.exists(ASSETS_DIR):
+        st.write("Contenido de assets:", os.listdir(ASSETS_DIR))
+    else:
+        st.warning("La carpeta 'assets' no fue encontrada en la ruta especificada.")
+        
     st.stop()
 
 # --- FUNCIONES AUXILIARES ---
