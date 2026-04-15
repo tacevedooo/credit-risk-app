@@ -1,10 +1,4 @@
 {
-    "int_rate": {
-        "tipo": "numerico",
-        "min": 5.32,
-        "max": 28.99,
-        "media": 13.87600227162701
-    },
     "dti": {
         "tipo": "numerico",
         "min": 0.0,
@@ -22,12 +16,6 @@
         "min": 500.0,
         "max": 35000.0,
         "media": 13610.4822552415
-    },
-    "revol_util": {
-        "tipo": "numerico",
-        "min": 0.0,
-        "max": 892.3,
-        "media": 54.49328201690686
     },
     "delinq_2yrs": {
         "tipo": "numerico",
@@ -52,12 +40,6 @@
         "min": 1.0,
         "max": 150.0,
         "media": 25.01952109633933
-    },
-    "grade": {
-        "tipo": "numerico",
-        "min": 1.0,
-        "max": 7.0,
-        "media": 2.8485234424459094
     },
     "term_ 60 months": {
         "tipo": "binario",

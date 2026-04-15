@@ -83,7 +83,8 @@ tab_inicio, tab_calc, tab_info = st.tabs(["🏠 Inicio", "🧮 Calculadora de Ri
 
 # --- SECCIÓN 1: INICIO ---
 with tab_inicio:
-    col1, col2 = st.columns([2, 1])
+    col1, col2 = st.columns([1.2, 1])  # Ajustamos proporciones para dar espacio al video
+    
     with col1:
         st.subheader("¿Qué es esta App?")
         st.write("""
@@ -91,12 +92,21 @@ with tab_inicio:
         incumpla con sus obligaciones financieras. A diferencia de los métodos tradicionales, analizamos 
         patrones complejos en 20 variables financieras.
         """)
+        
         st.subheader("¿Cómo funciona?")
         st.write("""
         1. **Ingreso de Datos:** Proporcionas información sobre ingresos, deudas y propósito del crédito.
         2. **Procesamiento:** El sistema procesa tus datos y los pasa por el modelo entrenado.
-        3. **Resultado:** Obtienes un puntaje crediticio, la probabilidad de incumplimiento del solicitante y una comparativa frente a miles de otros usuarios.
+        3. **Resultado:** Obtienes un puntaje crediticio, la probabilidad de incumplimiento y una comparativa frente a la población.
         """)
+
+    with col2:
+        st.subheader("🎬 Video de Presentación")
+        # Reemplaza el link por tu video real de YouTube
+        video_url = "https://www.youtube.com/watch?v=tu_video_id" 
+        st.video(video_url)
+        
+        st.caption("Mira este breve video para entender el impacto y la tecnología detrás de CreditScore App.")
         
 # --- SECCIÓN 2: CALCULADORA ---
 with tab_calc:
@@ -109,10 +119,8 @@ with tab_calc:
         # Inputs numéricos basados en los rangos que guardamos
         loan_amnt = c1.number_input("Monto del Préstamo ($)", min_value=0, max_value=100000, value=10000)
         annual_inc = c2.number_input("Ingreso Anual ($)", min_value=0, max_value=10000000, value=60000)
-        int_rate = c3.number_input("Tasa de Interés (%)", min_value=0.0, max_value=100.0, value=12.0)
         
         dti = c1.slider("DTI (Relación Deuda/Ingreso) (%)", 0.0, 100.0, 15.0)
-        revol_util = c2.slider("Utilización de Crédito (%)", 0.0, 100.0, 30.0)
         
         # Categorías
         # 1. Creamos diccionarios de traducción: { "Valor para el modelo": "Texto para el usuario" }
@@ -158,9 +166,8 @@ with tab_calc:
 
         # Crear diccionario con los valores
         inputs = {
-            'int_rate': int_rate, 'dti': dti, 'annual_inc': annual_inc, 'loan_amnt': loan_amnt,
-            'revol_util': revol_util, 'delinq_2yrs': delinq, 'pub_rec': pub_rec, 'open_acc': open_acc, 'total_acc': total_acc,
-            'grade': 0,
+            'dti': dti, 'annual_inc': annual_inc, 'loan_amnt': loan_amnt,
+            'delinq_2yrs': delinq, 'pub_rec': pub_rec, 'open_acc': open_acc, 'total_acc': total_acc,
             'term_ 60 months': 1 if term == "60 meses" else 0,
             'home_ownership_RENT': 1 if home == "RENT" else 0,
             'home_ownership_MORTGAGE': 1 if home == "MORTGAGE" else 0,
@@ -228,4 +235,43 @@ with tab_calc:
 
 # --- SECCIÓN 3: INFO ADICIONAL ---
 with tab_info:
-    pass
+    st.subheader("📂 Documentación y Recursos del Proyecto")
+    
+    
+    # Creamos 3 columnas para que los botones queden alineados horizontalmente
+    col_btn1, col_btn2, col_btn3 = st.columns(3)
+    
+    with col_btn1:
+        st.link_button(
+            "📄 Reporte Técnico", 
+            "https://tu-link-aqui.com/reporte", 
+            use_container_width=True,
+            help="Accede al PDF con la arquitectura del modelo y métricas de validación."
+        )
+    
+    with col_btn2:
+        st.link_button(
+            "🎬 Video Publicitario", 
+            "https://youtube.com/tu-video-aqui", 
+            use_container_width=True,
+            help="Mira el pitch del proyecto y la demostración de valor."
+        )
+    
+    with col_btn3:
+        st.link_button(
+            "💻 Repositorio GitHub", 
+            "https://github.com/tu-usuario/proyecto", 
+            use_container_width=True,
+            help="Explora el código fuente y el dataset utilizado."
+        )
+
+    st.divider()
+    
+    # Un extra para que no se vea vacío
+    st.markdown("### 🛠️ Tecnologías Utilizadas")
+    st.info("""
+    - **Backend:** Python con TensorFlow/Keras para la Red Neuronal.
+    - **Procesamiento:** Scikit-Learn para escalamiento y transformación de datos.
+    - **Interfaz:** Streamlit (UI Nativa).
+    - **Visualización:** Matplotlib y Seaborn para el análisis de distribución.
+    """)   
