@@ -1,8 +1,8 @@
 streamlit
-streamlit-option-menu
-tensorflow
-scikit-learn
+pandas
+numpy
 joblib
 matplotlib
 seaborn
-pandas
+scikit-learn==1.6.1
+tensorflow-cpu
