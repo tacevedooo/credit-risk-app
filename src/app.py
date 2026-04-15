@@ -5,7 +5,7 @@ import joblib
 import json
 import matplotlib.pyplot as plt
 import seaborn as sns
-from tensorflow.keras.models import load_model
+from keras.saving import load_model
 
 # --- CONFIGURACIÓN DE LA PÁGINA ---
 st.set_page_config(page_title="CreditScore", page_icon="🪙", layout="wide")
