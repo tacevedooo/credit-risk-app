@@ -1,4 +1,10 @@
 {
+    "int_rate": {
+        "tipo": "numerico",
+        "min": 5.32,
+        "max": 28.99,
+        "media": 13.87600227162701
+    },
     "dti": {
         "tipo": "numerico",
         "min": 0.0,

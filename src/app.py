@@ -143,11 +143,12 @@ with tab_calc:
     with st.form("score_form"):
         c1, c2, c3 = st.columns(3)
         
-        # Inputs numéricos basados en los rangos que guardamos
+        # Inputs numéricos 
         loan_amnt = c1.number_input("Monto del Préstamo ($)", min_value=0, max_value=100000, value=10000)
         annual_inc = c2.number_input("Ingreso Anual ($)", min_value=0, max_value=10000000, value=60000)
-        
-        dti = c1.slider("DTI (Relación Deuda/Ingreso) (%)", 0.0, 100.0, 15.0)
+        term = c3.selectbox("Plazo del crédito", ["36 meses", "60 meses"])
+        int_rate = c1.slider("Tasa de interés (%)", min_value=0.0, max_value=100.0, value=10.0)
+        dti = c2.slider("DTI (Relación Deuda/Ingreso) (%)", 0.0, 100.0, 15.0)
         
         # Categorías
         # 1. Creamos diccionarios de traducción: { "Valor para el modelo": "Texto para el usuario" }
@@ -167,23 +168,23 @@ with tab_calc:
         }
 
         # Categorías
-        home = c1.selectbox(
+        home = c3.selectbox(
             "Tipo de Vivienda", 
             options=list(nombres_vivienda.keys()), 
             format_func=lambda x: nombres_vivienda[x]
         )
-        term = c2.selectbox("Plazo del crédito", ["36 meses", "60 meses"])
-        purpose = c3.selectbox(
+        
+        purpose = c1.selectbox(
             "Propósito", 
             options=list(nombres_proposito.keys()), 
             format_func=lambda x: nombres_proposito[x]
         )
 
         # Otros datos menores
-        delinq = c1.number_input("Moras en los últimos 2 años", 0, 500, 0)
-        open_acc = c2.number_input("Cuentas abiertas actuales", 0, 500, 0)
-        total_acc = c3.number_input("Total de cuentas", 0, 500, 0)
-        pub_rec = c3.number_input("Registros públicos negativos", 0, 500, 0)
+        delinq = c2.number_input("Moras en los últimos 2 años", 0, 500, 0)
+        open_acc = c3.number_input("Cuentas abiertas actuales", 0, 500, 0)
+        total_acc = c1.number_input("Total de cuentas", 0, 500, 0)
+        pub_rec = c2.number_input("Registros públicos negativos", 0, 500, 0)
         
 
         submitted = st.form_submit_button("Calcular Score", type="primary")
@@ -193,7 +194,7 @@ with tab_calc:
 
         # Crear diccionario con los valores
         inputs = {
-            'dti': dti, 'annual_inc': annual_inc, 'loan_amnt': loan_amnt,
+            'int_rate': int_rate, 'dti': dti, 'annual_inc': annual_inc, 'loan_amnt': loan_amnt,
             'delinq_2yrs': delinq, 'pub_rec': pub_rec, 'open_acc': open_acc, 'total_acc': total_acc,
             'term_ 60 months': 1 if term == "60 meses" else 0,
             'home_ownership_RENT': 1 if home == "RENT" else 0,
@@ -271,9 +272,9 @@ with tab_info:
     with col_btn1:
         st.link_button(
             "📄 Reporte Técnico", 
-            "https://tu-link-aqui.com/reporte", 
+            "https://jihernandezc.github.io/rnaab_riesgo_crediticio/index.html", 
             use_container_width=True,
-            help="Accede al PDF con la arquitectura del modelo y métricas de validación."
+            help="Accede al reporte detallado de análisis, metodología y resultados del proyecto."
         )
     
     with col_btn2:
@@ -287,7 +288,7 @@ with tab_info:
     with col_btn3:
         st.link_button(
             "💻 Repositorio GitHub", 
-            "https://github.com/tu-usuario/proyecto", 
+            "https://github.com/tacevedooo/credit-risk-app", 
             use_container_width=True,
             help="Explora el código fuente y el dataset utilizado."
         )
