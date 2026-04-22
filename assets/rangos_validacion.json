@@ -1,15 +1,22 @@
 {
+    "loan_amnt": {
+        "tipo": "numerico",
+        "min": 500.0,
+        "max": 35000.0,
+        "media": 13610.4822552415
+    },
+    "term": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
     "int_rate": {
         "tipo": "numerico",
         "min": 5.32,
         "max": 28.99,
-        "media": 13.87600227162701
-    },
-    "dti": {
-        "tipo": "numerico",
-        "min": 0.0,
-        "max": 57.14,
-        "media": 16.675701560347076
+        "media": 13.876002271627007
     },
     "annual_inc": {
         "tipo": "numerico",
@@ -17,51 +24,32 @@
         "max": 8706582.0,
         "media": 72391.72810907534
     },
-    "loan_amnt": {
-        "tipo": "numerico",
-        "min": 500.0,
-        "max": 35000.0,
-        "media": 13610.4822552415
-    },
-    "delinq_2yrs": {
+    "dti": {
         "tipo": "numerico",
         "min": 0.0,
-        "max": 29.0,
-        "media": 0.2566938517111682
+        "max": 57.14,
+        "media": 16.675701560347072
     },
-    "pub_rec": {
+    "inq_last_6mths": {
         "tipo": "numerico",
         "min": 0.0,
-        "max": 15.0,
-        "media": 0.14644546233195546
+        "max": 33.0,
+        "media": 0.8863516180687446
     },
-    "open_acc": {
+    "revol_util": {
         "tipo": "numerico",
         "min": 0.0,
-        "max": 76.0,
-        "media": 10.969630953710945
-    },
-    "total_acc": {
-        "tipo": "numerico",
-        "min": 1.0,
-        "max": 150.0,
-        "media": 25.01952109633933
-    },
-    "term_ 60 months": {
-        "tipo": "binario",
-        "valores_permitidos": [
-            0,
-            1
-        ]
-    },
-    "home_ownership_RENT": {
-        "tipo": "binario",
-        "valores_permitidos": [
-            0,
-            1
-        ]
+        "max": 892.3,
+        "media": 54.49328201690686
     },
     "home_ownership_MORTGAGE": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "home_ownership_OTHER": {
         "tipo": "binario",
         "valores_permitidos": [
             0,
@@ -75,14 +63,7 @@
             1
         ]
     },
-    "purpose_small_business": {
-        "tipo": "binario",
-        "valores_permitidos": [
-            0,
-            1
-        ]
-    },
-    "purpose_debt_consolidation": {
+    "home_ownership_RENT": {
         "tipo": "binario",
         "valores_permitidos": [
             0,
@@ -96,7 +77,35 @@
             1
         ]
     },
+    "purpose_debt_consolidation": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "purpose_educational": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
     "purpose_home_improvement": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "purpose_house": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "purpose_major_purchase": {
         "tipo": "binario",
         "valores_permitidos": [
             0,
@@ -110,7 +119,42 @@
             1
         ]
     },
+    "purpose_moving": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
     "purpose_other": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "purpose_renewable_energy": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "purpose_small_business": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "purpose_vacation": {
+        "tipo": "binario",
+        "valores_permitidos": [
+            0,
+            1
+        ]
+    },
+    "purpose_wedding": {
         "tipo": "binario",
         "valores_permitidos": [
             0,

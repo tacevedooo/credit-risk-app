@@ -136,90 +136,89 @@ with tab_calc:
     with st.form("score_form"):
         c1, c2, c3 = st.columns(3)
         
-        # Inputs numéricos 
+        # 1. Inputs numéricos principales
         loan_amnt = c1.number_input("Monto del Préstamo ($)", min_value=0, max_value=100000, value=10000)
         annual_inc = c2.number_input("Ingreso Anual ($)", min_value=0, max_value=10000000, value=60000)
-        term = c3.selectbox("Plazo del crédito", ["36 meses", "60 meses"])
+        term_val = c3.selectbox("Plazo del crédito", ["36 meses", "60 meses"])
+        
         int_rate = c1.slider("Tasa de interés (%)", min_value=0.0, max_value=100.0, value=10.0)
         dti = c2.slider("DTI (Relación Deuda/Ingreso) (%)", 0.0, 100.0, 15.0)
+        revol_util = c3.slider("Uso de tarjetas de crédito (%)", 0.0, 100.0, 30.0)
         
-        # Categorías
-        # 1. Creamos diccionarios de traducción: { "Valor para el modelo": "Texto para el usuario" }
+        # 2. Variables de comportamiento crediticio (nuevas)
+        inq_last_6mths = c1.number_input("Solicitudes de crédito en los últimos 6 meses", 0, 20, 0)
+        
+        # 3. Diccionarios de traducción para categorías
         nombres_vivienda = {
-            "MORTGAGE": "Hipotecada", 
-            "RENT": "Alquilada", 
-            "OWN": "Propia"
+            "MORTGAGE": "Hipotecada", "RENT": "Alquilada", "OWN": "Propia", "OTHER": "Otro"
         }
         
         nombres_proposito = {
-            "debt_consolidation": "Consolidación de deudas", 
-            "credit_card": "Tarjeta de crédito", 
-            "home_improvement": "Mejoras del hogar", 
-            "small_business": "Pequeño negocio", 
-            "medical": "Gastos médicos", 
-            "other": "Otro propósito"
+            "debt_consolidation": "Consolidación de deudas", "credit_card": "Tarjeta de crédito", 
+            "home_improvement": "Mejoras del hogar", "small_business": "Pequeño negocio", 
+            "medical": "Gastos médicos", "major_purchase": "Compra mayor",
+            "vacation": "Vacaciones", "wedding": "Boda", "house": "Casa",
+            "educational": "Educativo", "moving": "Mudanza", 
+            "renewable_energy": "Energía renovable", "other": "Otro"
         }
 
-        # Categorías
-        home = c3.selectbox(
+        home = c2.selectbox(
             "Tipo de Vivienda", 
             options=list(nombres_vivienda.keys()), 
             format_func=lambda x: nombres_vivienda[x]
         )
         
-        purpose = c1.selectbox(
-            "Propósito", 
+        purpose = c3.selectbox(
+            "Propósito del Crédito", 
             options=list(nombres_proposito.keys()), 
             format_func=lambda x: nombres_proposito[x]
         )
 
-        # Otros datos menores
-        delinq = c2.number_input("Moras en los últimos 2 años", 0, 500, 0)
-        open_acc = c3.number_input("Cuentas abiertas actuales", 0, 500, 0)
-        total_acc = c1.number_input("Total de cuentas", 0, 500, 0)
-        pub_rec = c2.number_input("Registros públicos negativos", 0, 500, 0)
-        
-
         submitted = st.form_submit_button("Calcular Score", type="primary")
 
     if submitted:
-        # --- PROCESAMIENTO DE INPUTS PARA EL MODELO ---
-
-        # Crear diccionario con los valores
-        inputs = {
-            'int_rate': int_rate, 'dti': dti, 'annual_inc': annual_inc, 'loan_amnt': loan_amnt,
-            'delinq_2yrs': delinq, 'pub_rec': pub_rec, 'open_acc': open_acc, 'total_acc': total_acc,
-            'term_ 60 months': 1 if term == "60 meses" else 0,
-            'home_ownership_RENT': 1 if home == "RENT" else 0,
-            'home_ownership_MORTGAGE': 1 if home == "MORTGAGE" else 0,
-            'home_ownership_OWN': 1 if home == "OWN" else 0,
-            'purpose_small_business': 1 if purpose == "small_business" else 0,
-            'purpose_debt_consolidation': 1 if purpose == "debt_consolidation" else 0,
-            'purpose_credit_card': 1 if purpose == "credit_card" else 0,
-            'purpose_home_improvement': 1 if purpose == "home_improvement" else 0,
-            'purpose_medical': 1 if purpose == "medical" else 0,
-            'purpose_other': 1 if purpose == "other" else 0
-        }
+        # --- PROCESAMIENTO DE INPUTS ---
         
-        # Convertir a array en el orden correcto
-        data_df = pd.DataFrame([inputs], columns=vars_modelo)
+        # Inicializamos todas las variables en 0 para las dummies
+        inputs = {col: 0 for col in vars_modelo}
+        
+        # Asignamos valores numéricos directos
+        inputs['loan_amnt'] = loan_amnt
+        inputs['int_rate'] = int_rate
+        inputs['annual_inc'] = annual_inc
+        inputs['dti'] = dti
+        inputs['inq_last_6mths'] = inq_last_6mths
+        inputs['revol_util'] = revol_util
+        
+        # El modelo espera 'term' como numérico (36 o 60)
+        inputs['term'] = 36 if term_val == "36 meses" else 60
+        
+        # Asignamos las variables Dummie (One-Hot Encoding)
+        # Vivienda
+        key_home = f"home_ownership_{home}"
+        if key_home in inputs:
+            inputs[key_home] = 1
+            
+        # Propósito
+        key_purpose = f"purpose_{purpose}"
+        if key_purpose in inputs:
+            inputs[key_purpose] = 1
+        
+        # Convertir a DataFrame asegurando el orden exacto de 'vars_modelo'
+        data_df = pd.DataFrame([inputs])[vars_modelo]
+        
+        # Escalado y Predicción
         data_scaled = scaler.transform(data_df)
-
-        # Predicción
         prob = model.predict(data_scaled)[0][0]
         score = probabilidad_a_score(prob)
         
-        # MOSTRAR RESULTADOS
+        # --- MOSTRAR RESULTADOS ---
         st.divider()
         
-        # Estilo CSS para las tarjetas de resultados
         tarjeta_html = """
         <div style="background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%); 
-                    padding: 20px; 
-                    border-radius: 10px; 
-                    color: white; 
-                    text-align: center; 
-                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                    padding: 20px; border-radius: 10px; color: white; 
+                    text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
                     margin-bottom: 20px;">
             <p style="margin: 0; font-size: 1.2rem; opacity: 0.9;">{titulo}</p>
             <h2 style="margin: 0; font-size: 2.5rem; color: white;">{valor}</h2>
@@ -228,7 +227,7 @@ with tab_calc:
         
         m1, m2 = st.columns(2)
         with m1:
-            st.markdown(tarjeta_html.format(titulo="Puntaje de Crédito (300pts-850pts)", valor=f"{int(score)} pts"), unsafe_allow_html=True)
+            st.markdown(tarjeta_html.format(titulo="Puntaje de Crédito", valor=f"{int(score)} pts"), unsafe_allow_html=True)
         with m2:
             st.markdown(tarjeta_html.format(titulo="Probabilidad de Incumplimiento", valor=f"{prob*100:.2f}%"), unsafe_allow_html=True)
         
@@ -236,20 +235,15 @@ with tab_calc:
         st.subheader("Tu posición frente a la población")
         fig, ax = plt.subplots(figsize=(10, 4))
         
-        # Dibujar histogramas desde el JSON
         bins = dist_data['bins'][:-1]
         ax.bar(bins, dist_data['counts_buenos'], width=np.diff(dist_data['bins']), alpha=0.5, color='#2ecc71', label='Buenos Pagadores')
         ax.bar(bins, dist_data['counts_malos'], width=np.diff(dist_data['bins']), alpha=0.5, color='#e74c3c', label='Malos Pagadores')
         
-        # Línea del usuario
         ax.axvline(score, color='blue', linestyle='--', linewidth=2, label=f'Tu Score: {int(score)}')
         
-        # NOMBRES DE LOS EJES
         ax.set_xlabel('Puntaje de Crédito')
         ax.set_ylabel('Cantidad de Usuarios')
-
-        # LIMITAR EJE X
-        ax.set_xlim(525, 675)
+        ax.set_xlim(520, 680) # Ajustado al rango estándar
         
         ax.legend()
         st.pyplot(fig)
