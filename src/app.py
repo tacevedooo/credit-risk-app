@@ -127,6 +127,14 @@ with tab_inicio:
         3. **Resultado:** Obtienes un puntaje crediticio, la probabilidad de incumplimiento y una comparativa frente a la población.
         """)
 
+    with col2:
+        st.subheader("🎬 Video de Presentación")
+        # Reemplaza el link por tu video real de YouTube
+        video_url = "https://www.youtube.com/watch?v=iHfpLri8KlQ" 
+        st.video(video_url)
+        
+        st.caption("Mira este breve video para entender el impacto y la tecnología detrás de CreditScore App.")
+
         
 # --- SECCIÓN 2: CALCULADORA ---
 with tab_calc:
@@ -267,7 +275,7 @@ with tab_info:
     with col_btn2:
         st.link_button(
             "🎬 Video Publicitario", 
-            "https://youtube.com/tu-video-aqui", 
+            "https://youtu.be/iHfpLri8KlQ", 
             use_container_width=True,
             help="Mira el pitch del proyecto y la demostración de valor."
         )
